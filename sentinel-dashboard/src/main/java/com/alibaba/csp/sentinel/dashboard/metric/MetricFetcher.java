@@ -79,6 +79,11 @@ public class MetricFetcher {
     private static Logger logger = LoggerFactory.getLogger(MetricFetcher.class);
     private final long intervalSecond = 1;
 
+    /**
+     * 实例健康检测，超过一定时间健康检查失败的实例，直接移除，默认 1 个小时，健康检测失败移除实例
+     */
+    private final static Integer REMOVE_INSTANCE_TIME = 1000 * 60 * 60;
+
     private Map<String, AtomicLong> appLastFetchTime = new ConcurrentHashMap<>();
 
     @Autowired
@@ -206,6 +211,11 @@ public class MetricFetcher {
                 continue;
             }
             if (!machine.isHealthy()) {
+                // 移除健康检测超过一定时间的实例，避免 k8s 中出现大量不健康的实例
+                if ((start-machine.getLastHeartbeat()) > REMOVE_INSTANCE_TIME){
+                    appInfo.removeMachine(machine.getIp(),machine.getPort());
+                    continue;
+                }
                 latch.countDown();
                 unhealthy.incrementAndGet();
                 continue;
