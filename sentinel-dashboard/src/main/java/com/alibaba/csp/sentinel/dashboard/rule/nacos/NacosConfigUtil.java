@@ -28,6 +28,11 @@ public final class NacosConfigUtil {
     public static final String CLUSTER_MAP_DATA_ID_POSTFIX = "-cluster-map";
 
     /**
+     * Gateway
+     */
+    public static final String GATEWAY_FLOW_DATA_ID_POSTFIX = "-gateway-flow-rules";
+
+    /**
      * cc for `cluster-client`
      */
     public static final String CLIENT_CONFIG_DATA_ID_POSTFIX = "-cc-config";
