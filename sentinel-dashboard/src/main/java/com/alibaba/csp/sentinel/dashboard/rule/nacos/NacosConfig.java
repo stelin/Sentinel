@@ -20,6 +20,7 @@ import com.alibaba.csp.sentinel.dashboard.datasource.entity.gateway.GatewayFlowR
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.FlowRuleEntity;
 import com.alibaba.csp.sentinel.datasource.Converter;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.config.ConfigFactory;
 import com.alibaba.nacos.api.config.ConfigService;
@@ -48,7 +49,7 @@ public class NacosConfig {
      */
     @Bean
     public Converter<List<FlowRuleEntity>, String> flowRuleEntityEncoder() {
-        return JSON::toJSONString;
+        return c -> JSON.toJSONString(c, SerializerFeature.PrettyFormat);
     }
 
     @Bean
@@ -61,7 +62,7 @@ public class NacosConfig {
      */
     @Bean
     public Converter<List<ApiDefinitionEntity>, String> apiDefinitionEntityEncoder() {
-        return JSON::toJSONString;
+        return c -> JSON.toJSONString(c, SerializerFeature.PrettyFormat);
     }
 
     @Bean
@@ -74,7 +75,7 @@ public class NacosConfig {
      */
     @Bean
     public Converter<List<GatewayFlowRuleEntity>, String> gatewayFlowRuleEntityEncoder() {
-        return JSON::toJSONString;
+        return c -> JSON.toJSONString(c, SerializerFeature.PrettyFormat);
     }
 
     @Bean
